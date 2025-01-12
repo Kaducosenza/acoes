@@ -39,12 +39,10 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
 
             # Dividendos e número de pagamentos por ano
             dividendos = hist['Dividends'].resample('YE').sum()  # Soma dos dividendos por ano
-            pagamentos_por_ano = hist['Dividends'].resample('YE').count()  # Número de pagamentos por ano
-            total_pagamentos = pagamentos_por_ano.sum()  # Soma total de pagamentos
 
             # Preço atual e preço médio
-            preco_atual = hist['Close'].iloc[-1]  # Último preço
-            preco_medio = hist['Close'].mean()   # Preço médio no período
+            preco_atual = round(hist['Close'].iloc[-1], 2)  # Último preço
+            preco_medio = round(hist['Close'].mean(), 2)   # Preço médio no período
 
             # Informações financeiras
             infos = ticker.info
@@ -71,19 +69,22 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             media_pl_atual = indicadores['P/L Atual'].mean() if 'P/L Atual' in indicadores else None
             media_pvp_medio = indicadores['P/VP Médio'].mean() if 'P/VP Médio' in indicadores else None
             media_pvp_atual = indicadores['P/VP Atual'].mean() if 'P/VP Atual' in indicadores else None
+            valor_teto = round(dividendos.mean() / 0.06,2)
 
             # Adicionar resultados ao DataFrame final
             resultados.append({
                 "Ticker": acao,
                 "Preço Atual": preco_atual,
                 "Preço Médio": preco_medio,
+                "Valor Teto": valor_teto,
                 "DY Médio (%)": media_dy_medio,
                 "DY Atual (%)": media_dy_atual,
                 "P/L Médio": media_pl_medio,
                 "P/L Atual": media_pl_atual,
                 "P/VP Médio": media_pvp_medio,
-                "P/VP Atual": media_pvp_atual,
+                "P/VP Atual": media_pvp_atual
             })
+
 
         except Exception as e:
             print(f"Erro ao processar {acao}: {e}")
@@ -91,6 +92,7 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
                 "Ticker": acao,
                 "Preço Atual": None,
                 "Preço Médio": None,
+                "Valor Teto": None,
                 "DY Médio (%)": None,
                 "DY Atual (%)": None,
                 "P/L Médio": None,
@@ -150,7 +152,63 @@ def grafico(grafico):
     plt.legend()
     plt.tight_layout()
     plt.show()
+def grafico_2(grafico):
+    plt.figure(figsize=(14, 8))
+    
+    largura_barras = 0.25  # Ajustar a largura das barras para acomodar 3 grupos
+    x = range(len(grafico))  # Índices para os tickers
 
+    # Barras de DY Atual (azul)
+    barras_dy_atual = plt.bar(
+        [i - largura_barras for i in x], 
+        grafico['Preço Atual'], 
+        width=largura_barras, 
+        label='Preço Atual', 
+        color='blue', alpha=0.6
+    )
+
+    # Barras de DY Médio (vermelho)
+    barras_dy_medio = plt.bar(
+        [i for i in x], 
+        grafico['Preço Médio'], 
+        width=largura_barras, 
+        label='Preço Médio', 
+        color='red', alpha=0.6
+    )
+
+    # Barras adicionais (verde)
+    barras_extra = plt.bar(
+        [i + largura_barras for i in x], 
+        grafico['Valor Teto'], 
+        width=largura_barras, 
+        label='Valor Teto', 
+        color='green', alpha=0.6
+    )
+
+    # Adicionar texto dentro das barras de DY Atual
+    def barras (bara):
+        for barra in bara:
+         altura = barra.get_height()
+         plt.text(
+            barra.get_x() + barra.get_width() / 2,  # Centro da barra
+            altura / 2,                             # Meio da barra
+            f"R${altura:.2f}",                       # Texto formatado como porcentagem
+            ha='center', va='center', color='black', fontsize=10, fontweight='bold',rotation=90 
+        )
+    barras(barras_dy_atual)
+    barras(barras_dy_medio)
+    barras(barras_extra)
+    
+    # Configurações do gráfico
+    plt.xticks(x, grafico['Ticker'], rotation=45)
+    plt.ylabel("Preço")
+    plt.title("Comparação do Preço - Atual x Médio x Teto")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+      
 def media_geral (acoes):
     DY = acoes['DY Atual (%)'].mean()
     DY_m = acoes["DY Médio (%)"].mean()
@@ -176,6 +234,9 @@ filtro_barsi = resultados[
 
 print(filtro_barsi)
 grafico(filtro_barsi)
+grafico_2(filtro_barsi)
+
+
 
 resultados_2 = calcular_indicadores_historicos(acoes_america, inicio, hoje)
 resultados_2['DY Atual (%)'] = pd.to_numeric(resultados_2['DY Atual (%)'], errors='coerce')
@@ -189,3 +250,5 @@ filtro_barsi_2 = resultados_2[
 print()
 print(filtro_barsi_2)
 grafico(filtro_barsi_2)
+grafico_2(filtro_barsi_2)
+
