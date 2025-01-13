@@ -207,9 +207,7 @@ def grafico_2(grafico):
     plt.legend()
     plt.tight_layout()
     plt.show()
-
-
-      
+  
 def media_geral (acoes):
     DY = acoes['DY Atual (%)'].mean()
     DY_m = acoes["DY Médio (%)"].mean()
@@ -225,14 +223,14 @@ def media_geral (acoes):
 resultados = calcular_indicadores_historicos(acoes, inicio, hoje)
 resultados['DY Atual (%)'] = pd.to_numeric(resultados['DY Atual (%)'], errors='coerce')
 resultados = resultados.dropna(subset=['DY Atual (%)', 'P/L Atual', 'P/VP Atual'])
-
+DY = 6 
 # Filtrar ações que atendem aos critérios do Método Barsi
 filtro_barsi = resultados[
     (resultados['DY Atual (%)'] > 6) &   # DY médio acima de 6%
     (resultados['P/L Atual'] < 15) &    # P/L médio abaixo de 15
     (resultados['P/VP Atual'] < 2)      # P/VP médio abaixo de 2
 ]
-filtro_barsi ["Valor Teto"] = round(filtro_barsi["Dividendos"]/ 0.06 ,2)
+filtro_barsi ["Valor Teto"] = round(filtro_barsi["Dividendos"]/ (DY/100) ,2)
 
 print(filtro_barsi)
 grafico(filtro_barsi)
@@ -243,15 +241,15 @@ grafico_2(filtro_barsi)
 resultados_2 = calcular_indicadores_historicos(acoes_america, inicio, hoje)
 resultados_2['DY Atual (%)'] = pd.to_numeric(resultados_2['DY Atual (%)'], errors='coerce')
 resultados_2 = resultados_2.dropna(subset=['DY Atual (%)', 'P/L Atual', 'P/VP Atual'])
+DY_2 = 3
 
 filtro_barsi_2 = resultados_2[
-    (resultados_2['DY Atual (%)'] > 3) &   # DY médio acima de 3%
+    (resultados_2['DY Atual (%)'] > DY_2) &   # DY médio acima de 3%
     (resultados_2['P/L Atual'] < 20) &    # P/L médio abaixo de 20
     (resultados_2['P/VP Atual'] < 3)      # P/VP médio abaixo de 3
 ]
-filtro_barsi_2 ["Valor Teto"] = round(filtro_barsi_2 ["Dividendos"]/ 0.03 ,2)
+filtro_barsi_2 ["Valor Teto"] = round(filtro_barsi_2 ["Dividendos"]/ (DY_2/100) ,2)
 print()
 print(filtro_barsi_2)
 grafico(filtro_barsi_2)
 grafico_2(filtro_barsi_2)
-
