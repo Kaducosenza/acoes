@@ -69,14 +69,15 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             media_pl_atual = indicadores['P/L Atual'].mean() if 'P/L Atual' in indicadores else None
             media_pvp_medio = indicadores['P/VP Médio'].mean() if 'P/VP Médio' in indicadores else None
             media_pvp_atual = indicadores['P/VP Atual'].mean() if 'P/VP Atual' in indicadores else None
-            valor_teto = round(dividendos.mean() / 0.06,2)
+            Dividendos = (indicadores['Dividendos'].sum())/6
 
             # Adicionar resultados ao DataFrame final
             resultados.append({
                 "Ticker": acao,
                 "Preço Atual": preco_atual,
                 "Preço Médio": preco_medio,
-                "Valor Teto": valor_teto,
+                "Valor Teto": None,
+                "Dividendos": Dividendos,
                 "DY Médio (%)": media_dy_medio,
                 "DY Atual (%)": media_dy_atual,
                 "P/L Médio": media_pl_medio,
@@ -231,6 +232,7 @@ filtro_barsi = resultados[
     (resultados['P/L Atual'] < 15) &    # P/L médio abaixo de 15
     (resultados['P/VP Atual'] < 2)      # P/VP médio abaixo de 2
 ]
+filtro_barsi ["Valor Teto"] = round(filtro_barsi["Dividendos"]/ 0.06 ,2)
 
 print(filtro_barsi)
 grafico(filtro_barsi)
@@ -247,6 +249,7 @@ filtro_barsi_2 = resultados_2[
     (resultados_2['P/L Atual'] < 20) &    # P/L médio abaixo de 20
     (resultados_2['P/VP Atual'] < 3)      # P/VP médio abaixo de 3
 ]
+filtro_barsi_2 ["Valor Teto"] = round(filtro_barsi_2 ["Dividendos"]/ 0.03 ,2)
 print()
 print(filtro_barsi_2)
 grafico(filtro_barsi_2)
