@@ -15,11 +15,9 @@ alimentos_bebidas = ['MDIA3.SA', 'SLCE3.SA', 'BRAP4.SA', 'RAIL3.SA', 'ARZZ3.SA']
 acoes = list(set(acoes + Energia_Elétrica + Saneamento + Bancos + Telecomunicações + Seguros + saude + alimentos_bebidas))
 
 acoes_america = ['AAPL','MSFT','GOOGL','NVDA','KO','PG','PEP','WMT','JPM','V','MA','JNJ','PFE','UNH','XOM','CVX','NEE','MMM','HON','BA','PG','XOM','CVX','BLK','MSFT','AAPL','O','SPG','T','RF','ALLY','NXST','WEN','FIBK', 'STNG','CRI','VRTS','DHT','MO','BTI', 'PEAK','VZ','T', 'KMI','MMM','DVN','WHR','PFE','NEE']
+acoes_americanas = ['ADBE', 'TSLA', 'META', 'CSCO', 'ORCL', 'INTC', 'CRM', 'QCOM', 'SNOW', 'PANW','ABBV', 'TMO', 'MDT', 'SYK', 'CI', 'HUM', 'REGN', 'VRTX', 'BMY', 'AMGN','COST', 'MCD', 'DIS', 'TGT', 'HD', 'LOW', 'NKE', 'WBA', 'KR', 'DG','SLB', 'EOG', 'HAL', 'PXD', 'MPC', 'VLO', 'BKR', 'FANG', 'PSX', 'ENB','GS', 'C', 'AXP', 'BAC', 'USB', 'MS', 'BK', 'TFC', 'AIG', 'CME']
+acoes_america = acoes_america + acoes_americanas
 acoes_america = list(set(acoes_america)) 
-
-acoes_europa = ['NG.L', 'BP.L', 'LGEN.L', 'AV.L', 'ULVR.L', 'BATS.L', 'SHEL.L', 'VOD.L', 'IMB.L', 'RIO.L','OR.PA', 'TTE.PA', 'BN.PA', 'ENGI.PA', 'RMS.PA', 'EL.PA', 'VIV.PA', 'SU.PA', 'CAP.PA', 'AIR.PA','DTE.DE', 'ALV.DE', 'BAS.DE', 'VNA.DE', 'DB1.DE', 'SIE.DE', 'BMW.DE', 'LIN.DE', 'RWE.DE', 'SAP.DE','IBE.MC', 'TEF.MC', 'SAN.MC', 'REP.MC', 'ACS.MC', 'BBVA.MC', 'ITX.MC', 'AENA.MC', 'FER.MC', 'ENA.MC','NOVO-B.CO', 'TELIA.ST', 'EQNR.OL', 'FORTUM.HE', 'MAERSK-B.CO', 'NDAFI.HE', 'ERIC-B.ST', 'SSAB-A.ST', 'ORK.OL', 'STL.OL']
-acoes_europa = acoes_europa + ['SHEL.L', 'ULVR.L', 'BATS.L', 'TTE.PA', 'OR.PA', 'BN.PA', 'ALV.DE', 'SIE.DE', 'DTE.DE', 'IBE.MC', 'SAN.MC', 'ELE.MC','NOVO-B.CO', 'EQNR.OL', 'TELIA.ST']
-acoes_europa = list(set(acoes_europa))
 
 hoje = datetime.now()
 inicio = hoje - timedelta(days=6*365)  # Últimos 6 anos
@@ -48,6 +46,8 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             infos = ticker.info
             lpa = infos.get('trailingEps', 0)  # Lucro por Ação
             vpa = infos.get('bookValue', 0)    # Valor Patrimonial por Ação
+            setor = infos.get('sector', 'Não informado')
+
 
             # Calcular indicadores usando Preço Médio
             indicadores = pd.DataFrame()
@@ -74,6 +74,7 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             # Adicionar resultados ao DataFrame final
             resultados.append({
                 "Ticker": acao,
+                "Setor Atuante": setor,
                 "Preço Atual": preco_atual,
                 "Preço Médio": preco_medio,
                 "Valor Teto": None,
@@ -91,6 +92,7 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             print(f"Erro ao processar {acao}: {e}")
             resultados.append({
                 "Ticker": acao,
+                "Setor Atuante": None,
                 "Preço Atual": None,
                 "Preço Médio": None,
                 "Valor Teto": None,
@@ -206,8 +208,7 @@ def grafico_2(grafico):
     plt.title("Comparação do Preço - Atual x Médio x Teto")
     plt.legend()
     plt.tight_layout()
-    plt.show()
-  
+    plt.show()    
 def media_geral (acoes):
     DY = acoes['DY Atual (%)'].mean()
     DY_m = acoes["DY Médio (%)"].mean()
