@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-acoes_brasil = ['SBSP3.SA','AAPL','MSFT','GOOGL','NVDA','KO','PG',"NESN.SW","ULVR.L","OR.PA","SAP.DE","DGE.L","MC.PA","SIE.DE","AIR.PA","RDSA.AS","ASML.AS","NOVN.SW","ROG.SW","SAN.PA","BN.PA","BAS.DE","VOW3.DE","BMW.DE","ENEL.MI","IBE.MC","PHIA.AS","SU.PA","AD.AS","ABI.BR","CS.PA","LHA.DE","ALV.DE","AXA.PA","BP.L","AZN.L","GSK.L",'PEP','WMT','JPM','V','MA','JNJ','PFE','UNH','XOM','CVX','NEE','MMM','HON','BA','PG','XOM','CVX','BLK','MSFT','AAPL','O','SPG','T','RF','ALLY','NXST','WEN','FIBK', 'STNG','CRI','VRTS','DHT','MO','BTI', 'PEAK','VZ','T', 'KMI','MMM','DVN','WHR','PFE','NEE','ADBE', 'TSLA', 'META', 'CSCO', 'ORCL', 'INTC', 'CRM', 'QCOM', 'SNOW', 'PANW','ABBV', 'TMO', 'MDT', 'SYK', 'CI', 'HUM', 'REGN', 'VRTX', 'BMY', 'AMGN','COST', 'MCD', 'DIS', 'TGT', 'HD', 'LOW', 'NKE', 'WBA', 'KR', 'DG','SLB', 'EOG', 'HAL', 'PXD', 'MPC', 'VLO', 'BKR', 'FANG', 'PSX', 'ENB','GS', 'C', 'AXP', 'BAC', 'USB', 'MS', 'BK', 'TFC', 'AIG', 'CME','VIVT3.SA','BCE.TO', 'T.TO', 'RCI-B.TO', 'ENB.TO', 'TRP.TO', 'PPL.TO', 'IPL.TO', 'FTS.TO', 'EMA.TO', 'AQN.TO', 'CU.TO', 'BIP-UN.TO', 'BEP-UN.TO', 'CPX.TO', 'TA.TO', 'SU.TO', 'CNQ.TO', 'IMO.TO', 'TRI.TO', 'MFC.TO', 'SLF.TO', 'GWO.TO', 'BNS.TO', 'TD.TO', 'RY.TO', 'CM.TO', 'NA.TO', 'MRU.TO', 'L.TO', 'SAP.TO','BBSE3.SA','RDOR3.SA','MDIA3.SA', 'SLCE3.SA', 'BRAP4.SA', 'RAIL3.SA', 'ARZZ3.SA', 'HAPV3.SA', 'FLRY3.SA', 'PARD3.SA', 'QUAL3.SA','PSSA3.SA','TIMS3.SA','ITUB4.SA','BBDC4.SA','BBAS3.SA','SANB11.SA','SAPR4.SA','CSMG3.SA','ABEV3.SA', 'KLBN11.SA', 'SUZB3.SA', 'MRFG3.SA', 'BRFS3.SA','BBSE3.SA','VALE3.SA', 'ITUB4.SA', 'BBDC4.SA', 'ITSA4.SA', 'SANB11.SA', 'SANB4.SA','SANB3.SA','SAPR4.SA','TAEE4.SA','TAEE11.SA','ISAE4.SA','SAPR11.SA','VINO11.SA','HGLG11.SA','TAEE11.SA','EGIE3.SA','CMIG4.SA','TRPL4.SA','CPLE6.SA','ENBR3.SA', 'ALUP11.SA', 'NEOE3.SA', 'ENGI11.SA', 'CEEB3.SA']
-acoes = list(set(acoes_brasil)) 
+acoes = ['SBSP3.SA','AAPL','MSFT','GOOGL','NVDA','KO','PG',"NESN.SW","ULVR.L","OR.PA","SAP.DE","DGE.L","MC.PA","SIE.DE","AIR.PA","RDSA.AS","ASML.AS","NOVN.SW","ROG.SW","SAN.PA","BN.PA","BAS.DE","VOW3.DE","BMW.DE","ENEL.MI","IBE.MC","PHIA.AS","SU.PA","AD.AS","ABI.BR","CS.PA","LHA.DE","ALV.DE","AXA.PA","BP.L","AZN.L","GSK.L",'PEP','WMT','JPM','V','MA','JNJ','PFE','UNH','XOM','CVX','NEE','MMM','HON','BA','PG','XOM','CVX','BLK','MSFT','AAPL','O','SPG','T','RF','ALLY','NXST','WEN','FIBK', 'STNG','CRI','VRTS','DHT','MO','BTI', 'PEAK','VZ','T', 'KMI','MMM','DVN','WHR','PFE','NEE','ADBE', 'TSLA', 'META', 'CSCO', 'ORCL', 'INTC', 'CRM', 'QCOM', 'SNOW', 'PANW','ABBV', 'TMO', 'MDT', 'SYK', 'CI', 'HUM', 'REGN', 'VRTX', 'BMY', 'AMGN','COST', 'MCD', 'DIS', 'TGT', 'HD', 'LOW', 'NKE', 'WBA', 'KR', 'DG','SLB', 'EOG', 'HAL', 'PXD', 'MPC', 'VLO', 'BKR', 'FANG', 'PSX', 'ENB','GS', 'C', 'AXP', 'BAC', 'USB', 'MS', 'BK', 'TFC', 'AIG', 'CME','VIVT3.SA','BCE.TO', 'T.TO', 'RCI-B.TO', 'ENB.TO', 'TRP.TO', 'PPL.TO', 'IPL.TO', 'FTS.TO', 'EMA.TO', 'AQN.TO', 'CU.TO', 'BIP-UN.TO', 'BEP-UN.TO', 'CPX.TO', 'TA.TO', 'SU.TO', 'CNQ.TO', 'IMO.TO', 'TRI.TO', 'MFC.TO', 'SLF.TO', 'GWO.TO', 'BNS.TO', 'TD.TO', 'RY.TO', 'CM.TO', 'NA.TO', 'MRU.TO', 'L.TO', 'SAP.TO','BBSE3.SA','RDOR3.SA','MDIA3.SA', 'SLCE3.SA', 'BRAP4.SA', 'RAIL3.SA', 'ARZZ3.SA', 'HAPV3.SA', 'FLRY3.SA', 'PARD3.SA', 'QUAL3.SA','PSSA3.SA','TIMS3.SA','ITUB4.SA','BBDC4.SA','BBAS3.SA','SANB11.SA','SAPR4.SA','CSMG3.SA','ABEV3.SA', 'KLBN11.SA', 'SUZB3.SA', 'MRFG3.SA', 'BRFS3.SA','BBSE3.SA','VALE3.SA', 'ITUB4.SA', 'BBDC4.SA', 'ITSA4.SA', 'SANB11.SA', 'SANB4.SA','SANB3.SA','SAPR4.SA','TAEE4.SA','TAEE11.SA','ISAE4.SA','SAPR11.SA','VINO11.SA','HGLG11.SA','TAEE11.SA','EGIE3.SA','CMIG4.SA','TRPL4.SA','CPLE6.SA','ENBR3.SA', 'ALUP11.SA', 'NEOE3.SA', 'ENGI11.SA', 'CEEB3.SA']
+acoes = list(set(acoes)) 
 
 hoje = datetime.now()
 inicio = hoje - timedelta(days=6*365)  # Últimos 6 anos
@@ -271,6 +271,7 @@ def comparar_precos (resultado):
     grafico_2(filtro_barsi)
     filtro_barsi = filtro_barsi.drop(columns=["DY Atual (%)", "P/L Médio", "P/L Atual","P/VP Médio","P/VP Atual","DY Médio (%)"])
     print(filtro_barsi)
+    return filtro_barsi
 # Caso jà tenha comprado alguma ação
 def acoes_compradas (resultado):
     resultado["DY Atual (%)"] = pd.to_numeric(resultado["DY Atual (%)"], errors='coerce')
@@ -282,12 +283,13 @@ def acoes_compradas (resultado):
     grafico_2(resultado)
     resultado = resultado.drop(columns=["DY Atual (%)", "P/L Médio", "P/L Atual","P/VP Médio","P/VP Atual","DY Médio (%)"])
     print(resultado)
+    return resultado
 
 resultado_meu = calcular_indicadores_historicos(minhas_acoes, inicio, hoje)
-acoes_compradas(resultado_meu)
+resultado_meu = acoes_compradas(resultado_meu)
 
-resultado_bra = calcular_indicadores_historicos(acoes_brasil, inicio, hoje)
-comparar_precos (resultado_bra)
+resultado = calcular_indicadores_historicos(acoes, inicio, hoje)
+resultado = comparar_precos (resultado)
 
 IR_por_pais = {
         "BRL": 0.15,
