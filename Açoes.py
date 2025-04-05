@@ -3,24 +3,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-# Lista de empresas brasileiras para análise (exemplo: setores perenes)
-Energia_Elétrica = ['TAEE11.SA','EGIE3.SA','CMIG4.SA','TRPL4.SA','CPLE6.SA','ENBR3.SA', 'ALUP11.SA', 'NEOE3.SA', 'ENGI11.SA', 'CEEB3.SA']
-acoes = ['BBSE3.SA', 'ITUB4.SA', 'BBDC4.SA', 'ITSA4.SA', 'SANB11.SA', 'SANB4.SA','SANB3.SA','SAPR4.SA','TAEE4.SA','TAEE11.SA','ISAE4.SA','SAPR11.SA','VINO11.SA','HGLG11.SA']
-Saneamento =['SBSP3.SA','SAPR4.SA','CSMG3.SA','ABEV3.SA', 'KLBN11.SA', 'SUZB3.SA', 'MRFG3.SA', 'BRFS3.SA']
-Bancos = ['ITUB4.SA','BBDC4.SA','BBAS3.SA','SANB11.SA']
-Telecomunicações =['VIVT3.SA','TIMS3.SA']
-Seguros = ['BBSE3.SA','PSSA3.SA']
-saude = ['RDOR3.SA', 'HAPV3.SA', 'FLRY3.SA', 'PARD3.SA', 'QUAL3.SA']
-alimentos_bebidas = ['MDIA3.SA', 'SLCE3.SA', 'BRAP4.SA', 'RAIL3.SA', 'ARZZ3.SA']
-acoes = list(set(acoes + Energia_Elétrica + Saneamento + Bancos + Telecomunicações + Seguros + saude + alimentos_bebidas))
-
-acoes_america = ['AAPL','MSFT','GOOGL','NVDA','KO','PG','PEP','WMT','JPM','V','MA','JNJ','PFE','UNH','XOM','CVX','NEE','MMM','HON','BA','PG','XOM','CVX','BLK','MSFT','AAPL','O','SPG','T','RF','ALLY','NXST','WEN','FIBK', 'STNG','CRI','VRTS','DHT','MO','BTI', 'PEAK','VZ','T', 'KMI','MMM','DVN','WHR','PFE','NEE']
-acoes_americanas = ['ADBE', 'TSLA', 'META', 'CSCO', 'ORCL', 'INTC', 'CRM', 'QCOM', 'SNOW', 'PANW','ABBV', 'TMO', 'MDT', 'SYK', 'CI', 'HUM', 'REGN', 'VRTX', 'BMY', 'AMGN','COST', 'MCD', 'DIS', 'TGT', 'HD', 'LOW', 'NKE', 'WBA', 'KR', 'DG','SLB', 'EOG', 'HAL', 'PXD', 'MPC', 'VLO', 'BKR', 'FANG', 'PSX', 'ENB','GS', 'C', 'AXP', 'BAC', 'USB', 'MS', 'BK', 'TFC', 'AIG', 'CME']
-acoes_america = acoes_america + acoes_americanas
-acoes_america = list(set(acoes_america)) 
+acoes_brasil = ['SBSP3.SA','AAPL','MSFT','GOOGL','NVDA','KO','PG',"NESN.SW","ULVR.L","OR.PA","SAP.DE","DGE.L","MC.PA","SIE.DE","AIR.PA","RDSA.AS","ASML.AS","NOVN.SW","ROG.SW","SAN.PA","BN.PA","BAS.DE","VOW3.DE","BMW.DE","ENEL.MI","IBE.MC","PHIA.AS","SU.PA","AD.AS","ABI.BR","CS.PA","LHA.DE","ALV.DE","AXA.PA","BP.L","AZN.L","GSK.L",'PEP','WMT','JPM','V','MA','JNJ','PFE','UNH','XOM','CVX','NEE','MMM','HON','BA','PG','XOM','CVX','BLK','MSFT','AAPL','O','SPG','T','RF','ALLY','NXST','WEN','FIBK', 'STNG','CRI','VRTS','DHT','MO','BTI', 'PEAK','VZ','T', 'KMI','MMM','DVN','WHR','PFE','NEE','ADBE', 'TSLA', 'META', 'CSCO', 'ORCL', 'INTC', 'CRM', 'QCOM', 'SNOW', 'PANW','ABBV', 'TMO', 'MDT', 'SYK', 'CI', 'HUM', 'REGN', 'VRTX', 'BMY', 'AMGN','COST', 'MCD', 'DIS', 'TGT', 'HD', 'LOW', 'NKE', 'WBA', 'KR', 'DG','SLB', 'EOG', 'HAL', 'PXD', 'MPC', 'VLO', 'BKR', 'FANG', 'PSX', 'ENB','GS', 'C', 'AXP', 'BAC', 'USB', 'MS', 'BK', 'TFC', 'AIG', 'CME','VIVT3.SA','BCE.TO', 'T.TO', 'RCI-B.TO', 'ENB.TO', 'TRP.TO', 'PPL.TO', 'IPL.TO', 'FTS.TO', 'EMA.TO', 'AQN.TO', 'CU.TO', 'BIP-UN.TO', 'BEP-UN.TO', 'CPX.TO', 'TA.TO', 'SU.TO', 'CNQ.TO', 'IMO.TO', 'TRI.TO', 'MFC.TO', 'SLF.TO', 'GWO.TO', 'BNS.TO', 'TD.TO', 'RY.TO', 'CM.TO', 'NA.TO', 'MRU.TO', 'L.TO', 'SAP.TO','BBSE3.SA','RDOR3.SA','MDIA3.SA', 'SLCE3.SA', 'BRAP4.SA', 'RAIL3.SA', 'ARZZ3.SA', 'HAPV3.SA', 'FLRY3.SA', 'PARD3.SA', 'QUAL3.SA','PSSA3.SA','TIMS3.SA','ITUB4.SA','BBDC4.SA','BBAS3.SA','SANB11.SA','SAPR4.SA','CSMG3.SA','ABEV3.SA', 'KLBN11.SA', 'SUZB3.SA', 'MRFG3.SA', 'BRFS3.SA','BBSE3.SA','VALE3.SA', 'ITUB4.SA', 'BBDC4.SA', 'ITSA4.SA', 'SANB11.SA', 'SANB4.SA','SANB3.SA','SAPR4.SA','TAEE4.SA','TAEE11.SA','ISAE4.SA','SAPR11.SA','VINO11.SA','HGLG11.SA','TAEE11.SA','EGIE3.SA','CMIG4.SA','TRPL4.SA','CPLE6.SA','ENBR3.SA', 'ALUP11.SA', 'NEOE3.SA', 'ENGI11.SA', 'CEEB3.SA']
+acoes = list(set(acoes_brasil)) 
 
 hoje = datetime.now()
 inicio = hoje - timedelta(days=6*365)  # Últimos 6 anos
+
+minhas_acoes = [ 'RAIL3.SA', 'ARZZ3.SA','PEP','WMT','ENB.TO', 'TRP.TO',"ASML.AS","NOVN.SW"]
+
+dy_por_moeda = {
+        "BRL": 6,
+        "USD": 3,
+        "CAD": 4,
+        "EUR": 2.5
+    }
 
 # Função para coletar dados históricos e calcular indicadores
 def calcular_indicadores_historicos(acoes, inicio, hoje):
@@ -29,6 +25,7 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
         try:
             ticker = yf.Ticker(acao)
             hist = ticker.history(start=inicio, end=hoje)
+            pais = ticker.info['currency']
 
             # Verificar se 'Dividends' está presente no DataFrame
             if 'Dividends' not in hist.columns:
@@ -47,6 +44,7 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             lpa = infos.get('trailingEps', 0)  # Lucro por Ação
             vpa = infos.get('bookValue', 0)    # Valor Patrimonial por Ação
             setor = infos.get('sector', 'Não informado')
+            nome_empresa = infos.get('longName', 'Não informado')
 
 
             # Calcular indicadores usando Preço Médio
@@ -60,6 +58,7 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             indicadores['P/L Atual'] = preco_atual / lpa if lpa > 0 else None
             indicadores['P/VP Médio'] = preco_medio / vpa if vpa > 0 else None
             indicadores['P/VP Atual'] = preco_atual / vpa if vpa > 0 else None
+            
 
             # Filtrar e calcular médias
             indicadores = indicadores.dropna()
@@ -71,10 +70,35 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             media_pvp_atual = indicadores['P/VP Atual'].mean() if 'P/VP Atual' in indicadores else None
             Dividendos = (indicadores['Dividendos'].sum())/6
 
+            def get_sifrao(moeda):
+                simbolos = {
+                    'BRL': 'R$',
+                    'USD': '$',
+                    'EUR': '€',
+                    'GBP': '£',
+                    'CAD': 'C$',
+                    'JPY': '¥',
+                    'GBP': '£',
+                    'CHF': 'Fr.',
+                    'SEK': 'kr',
+                    'NOK': 'kr',
+                    'DKK': 'kr',
+                    'PLN': 'zł',
+                    'CZK': 'Kč',
+                    'HUF': 'Ft',
+                    'ISK': 'kr'
+                }
+                return simbolos.get(moeda, moeda)  # Se não encontrar, retorna o código mesmo
+
+            moeda = get_sifrao(pais)
+
             # Adicionar resultados ao DataFrame final
             resultados.append({
                 "Ticker": acao,
+                "Nome da Empresa": nome_empresa,
                 "Setor Atuante": setor,
+                "Pais" : pais,
+                "Moeda": moeda,
                 "Preço Atual": preco_atual,
                 "Preço Médio": preco_medio,
                 "Valor Teto": None,
@@ -92,7 +116,10 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
             print(f"Erro ao processar {acao}: {e}")
             resultados.append({
                 "Ticker": acao,
+                "Nome da Empresa": None,
                 "Setor Atuante": None,
+                "Pais" : None,
+                "Moeda": None,
                 "Preço Atual": None,
                 "Preço Médio": None,
                 "Valor Teto": None,
@@ -107,8 +134,8 @@ def calcular_indicadores_historicos(acoes, inicio, hoje):
 def grafico(grafico):
     plt.figure(figsize=(14, 8))
     
-    largura_barras = 0.4  # Largura das barras
-    x = range(len(grafico))  # Índices para os tickers
+    largura_barras = 0.4 
+    x = range(len(grafico))
 
     # Barras de DY Atual (azul)
     barras_dy_atual = plt.bar(
@@ -138,7 +165,6 @@ def grafico(grafico):
             ha='center', va='center', color='white', fontsize=10, fontweight='bold'
         )
 
-    # Adicionar texto dentro das barras de DY Médio
     for barra in barras_dy_medio:
         altura = barra.get_height()
         plt.text(
@@ -158,8 +184,8 @@ def grafico(grafico):
 def grafico_2(grafico):
     plt.figure(figsize=(14, 8))
     
-    largura_barras = 0.25  # Ajustar a largura das barras para acomodar 3 grupos
-    x = range(len(grafico))  # Índices para os tickers
+    largura_barras = 0.25 
+    x = range(len(grafico))
 
     # Barras de DY Atual (azul)
     barras_dy_atual = plt.bar(
@@ -187,17 +213,20 @@ def grafico_2(grafico):
         label='Valor Teto', 
         color='green', alpha=0.6
     )
-
-    # Adicionar texto dentro das barras de DY Atual
-    def barras (bara):
-        for barra in bara:
-         altura = barra.get_height()
-         plt.text(
-            barra.get_x() + barra.get_width() / 2,  # Centro da barra
-            altura / 2,                             # Meio da barra
-            f"R${altura:.2f}",                       # Texto formatado como porcentagem
-            ha='center', va='center', color='black', fontsize=10, fontweight='bold',rotation=90 
-        )
+    
+    def barras(barras_plot):
+        for i, barra in enumerate(barras_plot):
+            altura = barra.get_height()
+            if not pd.isna(altura):
+                moeda = grafico.iloc[i]['Moeda']  # Pega a moeda da linha correspondente
+                plt.text(
+                    barra.get_x() + barra.get_width() / 2,
+                    altura / 2,
+                    f"{moeda}{altura:.2f}",
+                    ha='center', va='center',
+                    color='black', fontsize=10,
+                    fontweight='bold', rotation=90
+                )
     barras(barras_dy_atual)
     barras(barras_dy_medio)
     barras(barras_extra)
@@ -218,39 +247,67 @@ def media_geral (acoes):
     PVP_m = acoes['P/VP Médio'].mean()
     print(f'DY {DY:.2f}, P/L {PL:.2f},P/VP {PVP:.2f}')
     print(f'DY {DY_m:.2f}, P/L {PL_m:.2f},P/VP {PVP_m:.2f}')
+def calcular_valor_teto(df):
+    return df.apply(
+        lambda row: round(
+            row["Dividendos"] / (dy_por_moeda.get(row["Pais"], 5) / 100),
+            2,
+        ),
+        axis=1,
+    )
+# Caso procure por alguma ação para comprar
+def comparar_precos (resultado):
+    resultado["DY Atual (%)"] = pd.to_numeric(resultado["DY Atual (%)"], errors='coerce')
+    resultado = resultado.dropna(subset=['DY Atual (%)', 'P/L Médio', 'P/VP Médio'])
+    resultado["DY Mínimo"] = resultado["Pais"].map(dy_por_moeda).fillna(5)
+    filtro_barsi = resultado[
+    (resultado['DY Atual (%)'] > resultado["DY Mínimo"] ) & 
+    (resultado['P/L Médio'] < 15) & 
+    (resultado['P/VP Médio'] < 2)
+    ].copy()
+    filtro_barsi["Valor Teto"] = calcular_valor_teto(filtro_barsi)
+    filtro_barsi = filtro_barsi.sort_values(by="Dividendos",ascending=False).reset_index(drop=True)
+    grafico(filtro_barsi)
+    grafico_2(filtro_barsi)
+    filtro_barsi = filtro_barsi.drop(columns=["DY Atual (%)", "P/L Médio", "P/L Atual","P/VP Médio","P/VP Atual","DY Médio (%)"])
+    print(filtro_barsi)
+# Caso jà tenha comprado alguma ação
+def acoes_compradas (resultado):
+    resultado["DY Atual (%)"] = pd.to_numeric(resultado["DY Atual (%)"], errors='coerce')
+    resultado = resultado.dropna(subset=['DY Atual (%)', 'P/L Médio', 'P/VP Médio'])
+    resultado["Valor Teto"] = calcular_valor_teto(resultado)
+    resultado = resultado.sort_values(by="Dividendos",ascending=False).reset_index(drop=True)
+    resultado["DY Mínimo"] = resultado["Pais"].map(dy_por_moeda).fillna(5)
+    grafico(resultado)
+    grafico_2(resultado)
+    resultado = resultado.drop(columns=["DY Atual (%)", "P/L Médio", "P/L Atual","P/VP Médio","P/VP Atual","DY Médio (%)"])
+    print(resultado)
 
+resultado_meu = calcular_indicadores_historicos(minhas_acoes, inicio, hoje)
+acoes_compradas(resultado_meu)
 
+resultado_bra = calcular_indicadores_historicos(acoes_brasil, inicio, hoje)
+comparar_precos (resultado_bra)
 
-resultados = calcular_indicadores_historicos(acoes, inicio, hoje)
-resultados['DY Atual (%)'] = pd.to_numeric(resultados['DY Atual (%)'], errors='coerce')
-resultados = resultados.dropna(subset=['DY Atual (%)', 'P/L Atual', 'P/VP Atual'])
-DY = 6 
-# Filtrar ações que atendem aos critérios do Método Barsi
-filtro_barsi = resultados[
-    (resultados['DY Atual (%)'] > 6) &   # DY médio acima de 6%
-    (resultados['P/L Atual'] < 15) &    # P/L médio abaixo de 15
-    (resultados['P/VP Atual'] < 2)      # P/VP médio abaixo de 2
-]
-filtro_barsi ["Valor Teto"] = round(filtro_barsi["Dividendos"]/ (DY/100) ,2)
+IR_por_pais = {
+        "BRL": 0.15,
+        "USD": 0.15,
+        "CAD": 0.3,
+        "EUR": 0.28  # varia por pais mas o maior é portugal com 28% por isso ele
+    }
+Valor = 500 # valor que você tem para usar
+pais = 'BRL' # qual pais você vai comprar
 
-print(filtro_barsi)
-grafico(filtro_barsi)
-grafico_2(filtro_barsi)
+def compra(resultado):
+    Final = pd.DataFrame()
+    resultado = resultado[resultado['Pais'] == pais]
+    Final['Ticker'] = resultado['Ticker']
+    Final['Nome da Empresa'] = resultado['Nome da Empresa']
+    Final['Numero de Acoes'] = round((Valor / resultado['Preço Atual']))
+    Final['Total de Dividendo'] = round(Final['Numero de Acoes'] * (resultado["Dividendos"] * (1 - resultado["Pais"].map(IR_por_pais).fillna(5))), 2)
+    Final = Final.sort_values(by="Total de Dividendo",ascending=False).reset_index(drop=True)
+    
+    print(Final)
 
-
-
-resultados_2 = calcular_indicadores_historicos(acoes_america, inicio, hoje)
-resultados_2['DY Atual (%)'] = pd.to_numeric(resultados_2['DY Atual (%)'], errors='coerce')
-resultados_2 = resultados_2.dropna(subset=['DY Atual (%)', 'P/L Atual', 'P/VP Atual'])
-DY_2 = 3
-
-filtro_barsi_2 = resultados_2[
-    (resultados_2['DY Atual (%)'] > DY_2) &   # DY médio acima de 3%
-    (resultados_2['P/L Atual'] < 20) &    # P/L médio abaixo de 20
-    (resultados_2['P/VP Atual'] < 3)      # P/VP médio abaixo de 3
-]
-filtro_barsi_2 ["Valor Teto"] = round(filtro_barsi_2 ["Dividendos"]/ (DY_2/100) ,2)
-print()
-print(filtro_barsi_2)
-grafico(filtro_barsi_2)
-grafico_2(filtro_barsi_2)
+compra(resultado_meu)
+compra(resultado)
